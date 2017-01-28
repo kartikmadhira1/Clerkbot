@@ -1,0 +1,36 @@
+
+TrajectoryPlannerROS:
+  acc_lim_x: 0.5
+  acc_lim_y: 1
+  acc_lim_theta: 0.1
+  max_vel_x: 1.0
+  min_vel_x: 0.8
+  max_rotational_vel: .1
+  min_in_place_rotational_vel: 0.1
+  escape_vel: -0.1
+  holonomic_robot: false
+
+# Goal Tolerance Parameters
+  xy_goal_tolerance: 0.4
+  yaw_goal_tolerance: 0.2
+  meter_scoring: true
+
+
+
+# Trajectory Scoring Parameters
+  goal_distance_bias: 0.8
+  path_distance_bias: 0.6
+  occdist_scale: 0.03
+  heading_lookahead: 0.5
+  pdist_scale: 1.2
+  gdist_scale: 0.6
+  heading_lookahead: true
+# Oscillation Prevention Parameters
+  sim_time: 1.0
+  sim_granularity: 0.1
+  angular_sim_granularity: 0.025
+  vx_samples: 8
+  vy_samples: 0 
+  vtheta_samples: 20
+  dwa: true
+  oscillation_reset_dist: 0.05
