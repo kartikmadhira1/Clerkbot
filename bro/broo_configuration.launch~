@@ -13,7 +13,7 @@
 <param name="port" type="string" value="/dev/ttyACM0"/>
 <param name="baud" type="string" value="57600"/>
 </node>
-<node pkg="tf" type="static_transform_publisher" name="base_to_laser_broadcaster" args="0.2505 0 0 3.14 0 0 /base_link /laser 100" />
+<node pkg="tf" type="static_transform_publisher" name="base_to_laser_broadcaster" args="0.12 0 0 3.14 0 0 /base_link /laser 25" />
 
 
 </launch>
