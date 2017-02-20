@@ -47,14 +47,14 @@ int main (int argc, char **argv)
   //initializing the ros node
   ros::init(argc,argv, "odometry_publisher");
   ros::NodeHandle n;
-  ros::Subscriber sub=n.subscribe("/ticks",50, &odom_callBack);
+  ros::Subscriber sub=n.subscribe("/ticks",10, &odom_callBack);
   ros::spinOnce();
 
   //initializing a subscriber for thr encoder ticks
   //initializing the publisher to write the odom data to nav_msgs/odom topic
-  ros::Publisher odom_pub= n.advertise<nav_msgs::Odometry>("odom",50);
+  ros::Publisher odom_pub= n.advertise<nav_msgs::Odometry>("odom",10);
   //while getting the odometery data we also need to transform frames
-  ros::Rate loop_rate(50);
+  ros::Rate loop_rate(25);
   ros::spinOnce();
 
   tf::TransformBroadcaster odom_broad;
@@ -66,8 +66,8 @@ int main (int argc, char **argv)
   {     /***********************************
          *            ODOMETERY SECTION            *
          ***********************************/
-        current_time_enc1=data.left_wheel;
-        current_time_enc2=data.right_wheel;
+        current_time_enc1=-data.left_wheel;
+        current_time_enc2=-data.right_wheel;
     //getting current_time for the current timing
         current_time = ros::Time::now();
         //getting dt evaluated in seconds
@@ -92,7 +92,7 @@ int main (int argc, char **argv)
 
         x+=delta_x;
         y+=delta_y;
-        th+=delta_th;
+        th-=delta_th;
             /***********************************
             *            TF SECTION            *
             ***********************************/
@@ -126,13 +126,13 @@ int main (int argc, char **argv)
         //setting all the data coming from arduino
         odom.pose.pose.position.x=x;
         odom.pose.pose.position.y=y;
-        odom.pose.pose.position.y=0.0;
+        odom.pose.pose.position.z=0.0;
         odom.pose.pose.orientation=odom_quat;
 
         //setting the velocites from arduino
         odom.child_frame_id="base_link";
         odom.twist.twist.linear.x=global_vx;
-        odom.twist.twist.linear.y=global_vy;
+        odom.twist.twist.linear.y=0;
         odom.twist.twist.angular.z=ang_v;
 
 
@@ -141,7 +141,7 @@ int main (int argc, char **argv)
         last_time=current_time;
         prev_time_enc1=current_time_enc1;
         prev_time_enc2=current_time_enc2;
-        ROS_INFO("The left, right and angular velocities are %.2f, %.2f, %.2f:", data.left_wheel, data.right_wheel, th);
+        ROS_INFO("The left, right and angular velocities are %.2f, %.2f, %.2f:", -data.left_wheel, -data.right_wheel, th);
         ros::spinOnce();
 	        loop_rate.sleep();
   }
