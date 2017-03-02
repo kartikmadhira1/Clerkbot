@@ -21,7 +21,7 @@
 #include <geometry_msgs/Twist.h>
 #include <nav_msgs/Odometry.h>
 
-//initializing with the help of a nodehandle. This woll take care of
+//initializing with the help of a nodehandle. This will take care of
 //all the node initializations.
 float linear_vel,ang_vel,error,act_lin_vel,act_ang_vel,integral,prev_error,final_cmd_vel,error_ang,int_ang,prev_ang_vel,final_ang_vel;
 long left_rpm,right_rpm;
@@ -87,9 +87,7 @@ void twist(const geometry_msgs::Twist &twist)
 {
   linear_vel=twist.linear.x;
   ang_vel=twist.angular.z;
-  
-
-}
+  }
 
 void odom_data(const nav_msgs::Odometry &odom_data)
 {
@@ -104,8 +102,8 @@ int command()
   double angular_vel_mins = ang_vel * 60;
   double circumference = PI * 0.11;
   double tangential_vel = angular_vel_mins * 0.30;
-  left_rpm=(linear_vel_mins / circumference) - (tangential_vel / circumference);
-  right_rpm=(linear_vel_mins / circumference) + (tangential_vel / circumference);
+  left_rpm=(linear_vel_mins / circumference) + (tangential_vel / circumference);
+  right_rpm=(linear_vel_mins / circumference) - (tangential_vel / circumference);
   return left_rpm, right_rpm;
 }
 
