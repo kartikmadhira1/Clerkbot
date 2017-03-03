@@ -104,6 +104,14 @@ int command()
   double tangential_vel = angular_vel_mins * 0.30;
   left_rpm=(linear_vel_mins / circumference) + (tangential_vel / circumference);
   right_rpm=(linear_vel_mins / circumference) - (tangential_vel / circumference);
+   if(left_rpm<0){
+   digitalWrite(10, HIGH);
+   digitalWrite(11, HIGH);    
+  }
+  if(right_rpm<0){
+    digitalWrite(7, HIGH);
+    digitalWrite(6, HIGH);
+  }
   return left_rpm, right_rpm;
 }
 
